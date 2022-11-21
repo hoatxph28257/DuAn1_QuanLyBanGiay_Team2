@@ -1,4 +1,4 @@
-create database team2
+﻿create database team2
 go
 use team2
 go
@@ -28,7 +28,9 @@ create table CuaHang
 	diaChi nvarchar(99) default null,
 	thanhPho nvarchar(25) default null,
 )
-
+INSERT [dbo].[CuaHang] ([ma], [ten], diaChi, thanhPho) VALUES ( N'CH1', N'Winmart+', N'36 Xuân Phương', N'Hà Nội')
+INSERT [dbo].[CuaHang] ([ma], [ten], diaChi, thanhPho) VALUES ( N'CH2', N'Lotte', N'37 Cầu Diễn', N'Hà Nội')
+select * from CuaHang
 --ChucVu
 if object_id ('ChucVu') is not null
 	drop table ChucVu
@@ -40,6 +42,9 @@ create table ChucVu
 	ten nvarchar(20) default null
 )
 
+INSERT [dbo].[ChucVu] ([Ma], [Ten]) VALUES (N'GÐ', N'Giám Đốc')
+INSERT [dbo].[ChucVu] ([Ma], [Ten]) VALUES ( N'PP', N'Nhân Viên')
+select * from ChucVu
 --NhanVien
 if object_id ('NhanVien') is not null
 	drop table NhanVien
@@ -58,7 +63,11 @@ create table NhanVien
 	idCH uniqueidentifier foreign key (idCH) references CuaHang(id),
 	trangThai int default null
 )
-
+INSERT [dbo].[NhanVien] (ma, ho, tenDem, ten, gioiTinh, diaChi, ngaySinh, idCV, idCH, trangThai) VALUES
+ (N'NV11',N'Vũ', N'Trí', N'Triều', N'Nam', N'Hà Nội', N'2003-3-3', N'2E43F01E-1802-4C33-9121-7A317BE69F5D', N'3EE90A0D-DF0E-41FE-94FB-3BF440E7B660', N'1')
+ INSERT [dbo].[NhanVien] (ma, ho, tenDem, ten, gioiTinh, diaChi, ngaySinh, idCV, idCH, trangThai) VALUES
+ (N'NV12',N'Nguyễn', N'Hữu', N'Hiếu', N'Nam', N'Hà Nội', N'2000-1-1', N'12743CDD-6A74-4E4D-811A-88FFCB3A108C', N'653CE673-3193-4BBD-B814-7193048C79A4', N'0')
+ select * from NhanVien
 --CaLamNhanVien
 if object_id ('CaLam') is not null
 	drop table CaLam
@@ -100,6 +109,12 @@ create table SanPham
 	ma varchar(10) unique,
 	ten nvarchar(30) default null
 )
+ALTER TABLE SanPham
+  ADD anh nvarchar;
+
+INSERT [dbo].[SanPham] ([ma], [ten]) VALUES ( N'SP1', N'Nike Air Force 1')
+INSERT [dbo].[SanPham] ([ma], [ten]) VALUES ( N'SP2', N'adidas Ultraboost')
+select * from SanPham
 
 --MauSac
 if object_id ('MauSac') is not null
@@ -111,6 +126,9 @@ create table MauSac
 	ma varchar(10) unique,
 	ten nvarchar(30) default null
 )
+INSERT [dbo].[MauSac] ([Ma], [Ten]) VALUES ( N'WT', N'Trắng')
+INSERT [dbo].[MauSac] ([Ma], [Ten]) VALUES ( N'BL', N'Đen')
+select * from MauSac
 
 -- NhaSanXuat
 if object_id ('NSX') is not null
@@ -122,7 +140,9 @@ create table NSX
 	ma varchar(10) unique,
 	ten nvarchar(30) default null
 )
-
+INSERT [dbo].[NSX] ([ma], [ten]) VALUES ( N'NK', N'Nike')
+INSERT [dbo].[NSX] ([ma], [ten]) VALUES ( N'AS', N'Adidas')
+select * from NSX
 --DongSanPham
 if object_id ('DongSP') is not null
 	drop table DongSP
@@ -133,8 +153,9 @@ create table DongSP
 	ma varchar(10) unique,
 	ten nvarchar(30) default null
 )
-
-
+INSERT [dbo].[DongSP] ([ma], [ten]) VALUES ( N'DSP1', N'Sneaker')
+INSERT [dbo].[DongSP] ([ma], [ten]) VALUES ( N'DSP2', N'Chelsea boot')
+select * from DongSP
 --KhuyenMai
 if object_id ('KhuyenMai') is not null
 	drop table KhuyenMai
@@ -166,6 +187,14 @@ create table SPCT
 	giaBan decimal(20,0) default 0,
 	moTa nvarchar(50) default null
 )
+INSERT [dbo].[SPCT] (idSP, idMS, idNSX, idDongSP, namBH, soLuongCon, giaNhap, giaBan, moTa)
+ VALUES ( N'4292F67A-7F96-475E-A0B3-2D8C0D5CDE89', N'1942C072-E0DD-4E4B-B786-94655FDC2566',N'527A99F5-1B94-44FE-8CDB-F992D6399E55',
+ N'0BB85445-FBA3-4C58-9F75-7EF6470C8877', 2024, 16,'800', '900', N'trẻ trung - năng động')
+ INSERT [dbo].[SPCT] (idSP, idMS, idNSX, idDongSP, namBH, soLuongCon, giaNhap, giaBan, moTa)
+ VALUES ( N'302C1CB7-9802-4EDB-988A-816C31551CD3', N'6D3527D5-EB0C-4CF3-BD45-BF40C7B9D044', N'132298D7-A393-45DE-BC81-C291E0BC033F',
+ N'0BB85445-FBA3-4C58-9F75-7EF6470C8877', 2023, 23, '1000', '1200',N'Cao cấp')
+ select * from SPCT
+
 
 --HoaDon
 if object_id ('HoaDon') is not null
@@ -234,4 +263,5 @@ create table BHCT
 	constraint FK1_BH foreign key (idBH) references BaoHanh(id),
 	constraint FK2_SPCT1 foreign key (idSPCT) references SPCT(id)
 )
+select * from BHCT
 
