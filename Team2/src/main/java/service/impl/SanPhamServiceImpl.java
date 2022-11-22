@@ -29,7 +29,8 @@ public class SanPhamServiceImpl implements SanPhamService{
 
     @Override
     public String save(QLSP x) {
-        SanPham ql = new SanPham(x.getMaSP(), x.getTenSP());
+        
+        SanPham ql = new SanPham(x.getId(),x.getMaSP(), x.getTenSP());
         boolean add = spRep.save(ql);
         if (add) {
             return "Thêm thành công";
@@ -39,8 +40,8 @@ public class SanPhamServiceImpl implements SanPhamService{
     }
 
     @Override
-    public String update(QLSP x) {
-        SanPham sp = new SanPham(x.getMaSP(), x.getTenSP());
+    public String update(QLSP x) { 
+        SanPham sp = new SanPham(x.getId(),x.getMaSP(), x.getTenSP());
         boolean update = spRep.update(sp);
         if (update) {
             return "Sửa thành công";
@@ -50,7 +51,7 @@ public class SanPhamServiceImpl implements SanPhamService{
     }
 
     @Override
-    public SanPham findById(UUID id) {
+    public SanPham findById(String ma) {
         return null;
     }
 

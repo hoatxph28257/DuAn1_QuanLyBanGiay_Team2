@@ -5,6 +5,7 @@
 package application;
 
 import views.NsxView;
+import views.SPCTView;
 import views.SanPhamView;
 
 /**
@@ -14,6 +15,7 @@ import views.SanPhamView;
 public class Application {
     public static void main(String[] args) {
         new SanPhamView().setVisible(true);
-//        new NsxView().setVisible(true);
+ //       new NsxView().setVisible(true);
+ //         new SPCTView().setVisible(true);
     }
 }

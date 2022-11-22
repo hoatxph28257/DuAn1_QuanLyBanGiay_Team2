@@ -172,6 +172,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Xem chi ti&#x1ebf;t s&#x1ea3;n ph&#x1ea9;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXemchiTietActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

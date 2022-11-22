@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import repository.INsx;
 import util.HibernateUtil;
 import view_model.QLNsx;
@@ -26,6 +27,7 @@ public class NsxRepositoryImpl implements INsx{
     public List<QLNsx> getAllNsx() {
         try (Session session = HibernateUtil.getFACTORY().openSession();) {
             Query qr = session.createQuery("from NSX");
+            
             List<NSX> lists = qr.getResultList();
             for (NSX x : lists) {
                 QLNsx ql = new QLNsx(x.getId(), x.getMa(), x.getTen());
@@ -37,29 +39,74 @@ public class NsxRepositoryImpl implements INsx{
         }
         return null;
     }
-    public static void main(String[] args) {
-////        NSX nsx=new NSX();
-        System.out.println(new NsxRepositoryImpl().getAllNsx());
-    }
+    
+//    public static void main(String[] args) {
+//////        NSX nsx=new NSX();
+//        System.out.println(new NsxRepositoryImpl().getAllNsx().toString());
+//    }
 
     @Override
     public Boolean save(NSX nsx) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Transaction tran = null;
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            tran = session.beginTransaction();
+            session.save(nsx);
+            tran.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
     }
+//     public static void main(String[] args) {
+//        
+//        String ma = "NN23";
+//        String ten = "Nikaeea";
+//        NSX nsx=new NSX(ma,ten);
+//         System.out.println(new NsxRepositoryImpl().save(nsx));
+//        System.out.println(new NsxRepositoryImpl().getAllNsx().toString());
+//    }
+    
 
     @Override
     public Boolean update(NSX nsx) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Transaction tran = null;
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            tran = session.beginTransaction();
+            session.update(nsx);
+            tran.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
     }
 
     @Override
     public Boolean delete(UUID id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Transaction tran = null;
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            tran = session.beginTransaction();
+            NSX nsx = session.get(NSX.class, id);
+            session.delete(nsx);
+            tran.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
     }
 
     @Override
-    public NSX findById(UUID id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public NSX findByID(UUID id) {
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            NSX nsx = session.get(NSX.class, id);
+            return nsx;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+        
     }
     
 }

@@ -22,5 +22,5 @@ public interface INsx {
 
     Boolean delete(UUID id);
 
-    NSX findById(UUID id);
+    NSX findByID(UUID id);
 }

@@ -28,9 +28,9 @@ import org.hibernate.annotations.GenericGenerator;
 public class SanPham implements Serializable {
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
-    @GeneratedValue(generator = "generator")
-    @Column(name = "id")
+   // @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
+    @GeneratedValue// (generator = "generator")
+    @Column(name = "id", columnDefinition = "uniqueidentifier")
     private UUID id;
 
     @Column(name = "ma")

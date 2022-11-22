@@ -8,6 +8,7 @@ import domain_model.NSX;
 import java.util.List;
 import java.util.UUID;
 import view_model.QLNsx;
+import view_model.QLNsxFind;
 
 /**
  *
@@ -22,5 +23,5 @@ public interface NsxService {
 
     String delete(UUID id);
 
-    NSX findById(UUID id);
+    NSX findByID(UUID id);
 }

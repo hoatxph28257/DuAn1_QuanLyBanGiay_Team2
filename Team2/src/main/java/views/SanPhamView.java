@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import service.SanPhamService;
 import service.impl.SanPhamServiceImpl;
+import view_model.QLNsx;
 import view_model.QLSP;
 
 /**
@@ -26,7 +27,7 @@ public class SanPhamView extends javax.swing.JFrame {
     public SanPhamView() {
         initComponents();
         tbSanPham.setModel(model);
-        String[] header = {"Mã SP", "Tên SP"};
+        String[] header = {"STT","Mã SP", "Tên SP", "Ảnh"};
         model.setColumnIdentifiers(header);
         listSP = spService.getAllSP();
         showData(listSP);
@@ -34,9 +35,9 @@ public class SanPhamView extends javax.swing.JFrame {
     
     private void showData(List<QLSP> lists){
         model.setRowCount(0);
-        
+        int stt = 1;
         for (QLSP list : lists) {
-            model.addRow(new Object[]{list.getMaSP(), list.getTenSP()});
+            model.addRow(new Object[]{stt++,list.getMaSP(), list.getTenSP()});
         }
     }
     private void fillData(int i) {
@@ -45,6 +46,11 @@ public class SanPhamView extends javax.swing.JFrame {
         txtTen.setText(sp.getTenSP());
     }
 
+    private void clear(){
+        txtMa.setText("");
+        txtTen.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,6 +97,11 @@ public class SanPhamView extends javax.swing.JFrame {
 
         btnXemchiTiet.setBackground(new java.awt.Color(204, 204, 255));
         btnXemchiTiet.setText("Xem chi tiết sản phẩm");
+        btnXemchiTiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemchiTietActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Tên Sản Phẩm: ");
@@ -271,6 +282,7 @@ public class SanPhamView extends javax.swing.JFrame {
         listSP.clear();
         listSP = spService.getAllSP();
         showData(listSP);
+        clear();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -287,10 +299,24 @@ public class SanPhamView extends javax.swing.JFrame {
             listSP = spService.getAllSP();
             showData(listSP);
         }
+//        int row = tbSanPham.getSelectedRow();
+//        if (row == -1) {
+//            JOptionPane.showMessageDialog(this, "Phải chọn dòng để sửa");
+//        } else {
+//            QLSP sp = getData();
+//            QLSP ql = listSP.get(row);
+//            sp.getId(ql.get);
+//            sp.setTenSP(txtTen.getText());
+//            JOptionPane.showMessageDialog(this, spService.update(sp));
+//            listSP.clear();
+//            listSP = spService.getAllSP();
+//            showData(listSP);
+//            clear();
+//        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
+//         TODO add your handling code here:
         int row = tbSanPham.getSelectedRow();
         if (row < 0) {
             JOptionPane.showMessageDialog(this, "Phải chọn dòng để xóa");
@@ -302,7 +328,12 @@ public class SanPhamView extends javax.swing.JFrame {
             listSP = spService.getAllSP();
             showData(listSP);
         }
+        
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnXemchiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemchiTietActionPerformed
+        new SPCTView().setVisible(true);
+    }//GEN-LAST:event_btnXemchiTietActionPerformed
 
     /**
      * @param args the command line arguments

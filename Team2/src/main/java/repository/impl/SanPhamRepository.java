@@ -29,7 +29,7 @@ public class SanPhamRepository implements ISanPham{
             Query qr = session.createQuery("select sp from SanPham sp");
             List<SanPham> list = qr.getResultList();
             for (SanPham x : list) {
-                QLSP ql = new QLSP(x.getId(), x.getMa(), x.getTen());
+                QLSP ql = new QLSP(x.getId(),x.getMa(), x.getTen());
                 listQLSP.add(ql);
             }
             return listQLSP;
@@ -39,7 +39,7 @@ public class SanPhamRepository implements ISanPham{
         return null;
     }
 
-
+    
     @Override
     public Boolean save(SanPham sp) {
         Transaction tran = null;
@@ -68,9 +68,10 @@ public class SanPhamRepository implements ISanPham{
         return null;
     }
 
+
     @Override
     public Boolean delete(UUID id) {
-         Transaction tran = null;
+        Transaction tran = null;
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
             tran = session.beginTransaction();
             SanPham sp = session.find(SanPham.class, id);
@@ -82,15 +83,20 @@ public class SanPhamRepository implements ISanPham{
         }
         return null;
     }
-
+//    public static void main(String[] args) {
+//        SanPham sp = new SanPham();
+//        String ma = "SP12346";
+//        System.out.println(new SanPhamRepository().delete(ma));
+//    }
+    
     @Override
-    public SanPham findById(UUID id) {
-//        try (Session ses = HibernateUtil.getFACTORY().openSession()) {
-//            SanPham sp = ses.get(SanPham.class, id);
-//            return sp;
-//        } catch (Exception e) {
-//            e.printStackTrace(System.out);
-//        }
+    public SanPham findById(String ma) {
+        try (Session ses = HibernateUtil.getFACTORY().openSession()) {
+            SanPham sp = ses.get(SanPham.class, ma);
+            return sp;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
         return null;
     }
 

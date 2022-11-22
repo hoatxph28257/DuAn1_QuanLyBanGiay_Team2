@@ -10,24 +10,26 @@ import java.util.UUID;
  *
  * @author 84961
  */
-public class QLNsx {
-    private UUID id;
-    private String ma;
-    private String ten;
+public class QLNsxFind {
+    UUID id;
+    String ma;
+    String ten;
 
-    public QLNsx() {
+    public QLNsxFind() {
     }
 
-    public QLNsx(String ma, String ten) {
-        this.ma = ma;
-        this.ten = ten;
-    }
-
-    public QLNsx(UUID id, String ma, String ten) {
+    public QLNsxFind(UUID id, String ma, String ten) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
     }
+
+    public QLNsxFind(String ma, String ten) {
+        this.ma = ma;
+        this.ten = ten;
+    }
+    
+    
     
     public UUID getId() {
         return id;
@@ -57,6 +59,4 @@ public class QLNsx {
     public String toString() {
         return "QLNsx{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + '}';
     }
-
-    
 }

@@ -4,12 +4,16 @@
  */
 package views;
 
+import domain_model.NSX;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import service.NsxService;
 import service.impl.NsxServiceImpl;
 import view_model.QLNsx;
+import view_model.QLNsxFind;
 
 /**
  *
@@ -39,18 +43,33 @@ public class NsxView extends javax.swing.JFrame {
         }
     }
 
-//    private QLNsx getData() {
-//        QLNsx ql = new QLNsx();
-//        ql.setMa(txtMa.getText());
-//        ql.setTen(txtTen.getText());
-//        return ql;
-//    }
+    private QLNsx getData() {
+        QLNsx ql = new QLNsx();
+        ql.setMa(txtMa.getText());
+        ql.setTen(txtTen.getText());
+        return ql;
+    }
 
     private void fillData(int i) {
         QLNsx nsx = listNSX.get(i);
-        jlbNSX.setText(String.valueOf(nsx.getId()));
+        
         txtMa.setText(nsx.getMa());
         txtTen.setText(nsx.getTen());
+    }
+    
+    public static String gen(String ma) {
+        int last = (int) Math.floor((Math.random()) * 9999);
+        if (last < 1000 && last >= 100) {
+            return ma + "0" + last;
+        }
+        if (last < 100 && last >= 10) {
+            return ma + "00" + last;
+        }
+        if (last < 10) {
+            return ma + "000" + last;
+        }
+
+        return ma + last;
     }
 
     /**
@@ -62,21 +81,21 @@ public class NsxView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListDataNSX = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jlbNSX = new javax.swing.JLabel();
         txtMa = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtTen = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnClear = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
         tblListDataNSX.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,10 +117,9 @@ public class NsxView extends javax.swing.JFrame {
 
         jLabel5.setText("Tên");
 
-        jlbNSX.setText("Id");
-
         jLabel4.setText("Mã");
 
+        btnAdd.setBackground(new java.awt.Color(204, 204, 255));
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +127,7 @@ public class NsxView extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.setBackground(new java.awt.Color(204, 204, 255));
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,6 +135,7 @@ public class NsxView extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setBackground(new java.awt.Color(204, 204, 255));
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,78 +143,72 @@ public class NsxView extends javax.swing.JFrame {
             }
         });
 
-        btnClear.setText("Clear");
-        btnClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("NHÀ SẢN XUẤT");
 
-        jLabel2.setText("Id");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49)
+                                .addComponent(btnUpdate)
+                                .addGap(44, 44, 44)
+                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(33, 33, 33)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtTen, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                                    .addComponent(txtMa)))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel1)
+                .addGap(73, 73, 73)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(btnUpdate)
-                        .addGap(15, 15, 15)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTen)
-                            .addComponent(txtMa)
-                            .addComponent(jlbNSX, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)))
-                .addContainerGap(34, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(98, 98, 98))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jlbNSX))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnClear)
-                    .addComponent(btnAdd)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -208,54 +222,48 @@ public class NsxView extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-//        String ma=gen("NSX");
-//        String ten=txtTen.getText();
-//        QLNSX ql=new QLNSX(ma, ten);
-//        JOptionPane.showMessageDialog(this, nsxService.save(ql));
-//        listNSX.clear();
-//        listNSX = nsxService.getAllNSX();
-//        showData(listNSX);
+        String ma=gen("NSX");
+        String ten=txtTen.getText();
+        QLNsx ql=new QLNsx(ma, ten);
+        JOptionPane.showMessageDialog(this, nsxService.save(ql));
+        listNSX.clear();
+        listNSX = nsxService.getAllNSX();
+        showData(listNSX);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-//        int row = tblListDataNSX.getSelectedRow();
-//        if (row == -1) {
-//            JOptionPane.showMessageDialog(this, "Chọn dòng cần update");
-//        } else {
-//            QLNSX nsx = getData();
-//            QLNSX ql=listNSX.get(row);
-//            nsx.setId(ql.getId());
-//            listNSX.set(row, nsx);
-//            JOptionPane.showMessageDialog(this, nsxService.update(nsx));
-//            listNSX.clear();
-//            listNSX = nsxService.getAllNSX();
-//            showData(listNSX);
-//        }
+        int row = tblListDataNSX.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn dòng cần update");
+        } else {
+            QLNsx nsx = getData();
+            QLNsx ql=listNSX.get(row);
+            nsx.setId(ql.getId());
+            listNSX.set(row, nsx);
+            JOptionPane.showMessageDialog(this, nsxService.update(nsx));
+            listNSX.clear();
+            listNSX = nsxService.getAllNSX();
+            showData(listNSX);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-//        int row = tblListDataNSX.getSelectedRow();
-//        if (row == -1) {
-//            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
-//        } else {
-//            UUID id = listNSX.get(row).getId();
-//            JOptionPane.showMessageDialog(this, nsxService.delete(id));
-//            listNSX.remove(row);
-//            listNSX.clear();
-//            listNSX = nsxService.getAllNSX();
-//            showData(listNSX);
-//        }
+        int row = tblListDataNSX.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
+        } else {
+            UUID id = listNSX.get(row).getId();
+            JOptionPane.showMessageDialog(this, nsxService.delete(id));
+            listNSX.remove(row);
+            listNSX.clear();
+            listNSX = nsxService.getAllNSX();
+            showData(listNSX);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
-        jlbNSX.setText("Id");
-        txtMa.setText("");
-        txtTen.setText("");
-    }//GEN-LAST:event_btnClearActionPerformed
-
+    private List<QLNsxFind> listQLFind = new ArrayList<>();
     /**
      * @param args the command line arguments
      */
@@ -293,15 +301,13 @@ public class NsxView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel jlbNSX;
     private javax.swing.JTable tblListDataNSX;
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtTen;

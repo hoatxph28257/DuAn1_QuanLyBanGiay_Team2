@@ -21,7 +21,7 @@ public interface SanPhamService {
 
     String update(QLSP x);
 
-    SanPham findById(UUID id);
+    SanPham findById(String ma);
 
     String delete(UUID id);
 

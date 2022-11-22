@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -21,16 +22,17 @@ import org.hibernate.annotations.GenericGenerator;
  * @author tungs
  */
 @Entity
-@Table(name = "SanPham")
+@Table(name = "NSX")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class NSX implements Serializable {
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
-    @GeneratedValue(generator = "generator")
-    @Column(name = "id")
+//    @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
+    @GeneratedValue //(generator = "generator")
+    @Column(name = "id", columnDefinition = "uniqueidentifier")
     private UUID id;
 
     @Column(name = "ma")

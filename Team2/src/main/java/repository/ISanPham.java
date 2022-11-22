@@ -23,7 +23,7 @@ public interface ISanPham {
 
     Boolean delete(UUID id);
 
-    SanPham findById(UUID id);
+    SanPham findById(String ma);
 
     List<SanPham> findByName(String name);
 }

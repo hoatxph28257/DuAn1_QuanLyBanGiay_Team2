@@ -5,12 +5,14 @@
 package service.impl;
 
 import domain_model.NSX;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import repository.INsx;
 import repository.impl.NsxRepositoryImpl;
 import service.NsxService;
 import view_model.QLNsx;
+import view_model.QLNsxFind;
 
 /**
  *
@@ -28,22 +30,39 @@ public class NsxServiceImpl implements NsxService {
 
     @Override
     public String save(QLNsx nsx) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        NSX nsx1 = new NSX(nsx.getId(), nsx.getMa(), nsx.getTen());
+        boolean add = nsxRep.save(nsx1);
+        if (add) {
+            return "Thêm thành công";
+        } else {
+            return "Thêm thất bại";
+        }
     }
 
     @Override
     public String update(QLNsx nsx) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        NSX nsx1 = new NSX(nsx.getId(),nsx.getMa(), nsx.getTen());
+        boolean update = nsxRep.update(nsx1);
+        if (update) {
+            return "Cập nhật thành công";
+        } else {
+            return "Cập nhật thất bại";
+        }
     }
 
     @Override
     public String delete(UUID id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean delete = nsxRep.delete(id);
+        if (delete) {
+            return "Xóa thành công";
+        } else {
+            return "Xóa thất bại";
+        }
     }
 
     @Override
-    public NSX findById(UUID id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public NSX findByID(UUID id) {
+        return nsxRep.findByID(id);
     }
     
 }
